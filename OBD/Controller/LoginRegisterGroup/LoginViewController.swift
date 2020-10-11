@@ -10,7 +10,6 @@ import UIKit
 
 class LoginViewController: LoginBaseViewController,UINavigationControllerDelegate
 {
-    private let httpManager:LoginHttpManager = LoginHttpManager.init()
     private var inputContentView:UIView?
 
     override func viewDidLoad()
@@ -203,148 +202,83 @@ class LoginViewController: LoginBaseViewController,UINavigationControllerDelegat
         }
         
         
-        UIView.animate(withDuration: duration!, animations:
-        {
+        UIView.animate(withDuration: duration!, animations: {
             self.view.frame = CGRect.init(x: 0, y: y, width: self.view.frame.size.width, height: self.view.frame.size.height)
         }, completion: nil)
 
     }
-    
-    
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
+        
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
     
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
-    {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
 
-    @objc private func qqLoginButtonClick(sender:UIButton)
-    {
+    @objc private func qqLoginButtonClick(sender:UIButton) {
         self.view.endEditing(true)
-
-        
-//        if UMSocialManager.default().isInstall(.QQ)  == false
-//        {
-//            localNoAppTip(platform: "QQ")
-//            return
-//        }
-        
         
         UMSocialManager.default().getUserInfo(with: .QQ, currentViewController: self) { [weak self]  (result,error:Error?) in
             
-            if let data = result as? UMSocialUserInfoResponse
-            {
+            if let data = result as? UMSocialUserInfoResponse {
                 let parDict:NSDictionary = ["aite_id":data.uid,"login_type":"1","nickname":data.name,"headimg":data.iconurl]
-                
                 
                 print("QQ登录结果 ========= \(String(describing: parDict))")
                 
                 self?.thirdPartyLoginWithPlayform(parametersDict: parDict, sender: sender)
             }
-
-
         }
-
     }
     
-    @objc private func weChatLoginButtonClick(sender:UIButton)
-    {
+    @objc private func weChatLoginButtonClick(sender:UIButton){
         self.view.endEditing(true)
-
-//        if UMSocialManager.default().isInstall(.wechatSession) == false
-//        {
-//            localNoAppTip(platform: "微信")
-//            return
-//        }
-
         
         UMSocialManager.default().getUserInfo(with: .wechatSession, currentViewController: self) {[weak self] (result, error:Error?) in
             
-            if let data = result as? UMSocialUserInfoResponse
-            {
+            if let data = result as? UMSocialUserInfoResponse {
                 let parDict:NSDictionary = ["aite_id":data.uid,"login_type":"2","nickname":data.name,"headimg":data.iconurl]
-                
-                
-                
+                                
                 print("weChat登录结果 ========= \(String(describing: parDict))")
 
                 self?.thirdPartyLoginWithPlayform(parametersDict: parDict, sender: sender)
             }
-            
-            
-            
         }
-        
-        
-
-
     }
-    @objc private func fbLoginButtonClick(sender:UIButton)
-    {
+    
+    @objc private func fbLoginButtonClick(sender:UIButton){
         self.view.endEditing(true)
-        
         
         print("facebook")
 
-//        if UMSocialManager.default().isInstall(.facebook)  == false
-//        {
-//            localNoAppTip(platform: "facebook")
-//            return
-//        }
-        
         UMSocialManager.default().getUserInfo(with: .facebook, currentViewController: self) {[weak self] (result,error:Error?) in
 
-            if let data = result as? UMSocialUserInfoResponse
-            {
+            if let data = result as? UMSocialUserInfoResponse {
                 let parDict:NSDictionary = ["aite_id":data.uid,"login_type":"3","nickname":data.name,"headimg":data.iconurl]
-                
                 
                 print("facebook登录结果 ========= \(String(describing: parDict))")
                 
                 self?.thirdPartyLoginWithPlayform(parametersDict: parDict, sender: sender)
             }
-
         }
-
     }
-
     
-    
-    private func thirdPartyLoginWithPlayform(parametersDict:NSDictionary ,sender:UIButton)
-    {
+    private func thirdPartyLoginWithPlayform(parametersDict:NSDictionary ,sender:UIButton) {
         let imageView = sender.superview?.viewWithTag(91) as! UIImageView
         imageView.isHighlighted = true
         rotationCircleAnimation(superView: imageView)
         
-        self.httpManager.thirdPartyLogin(withParameterDict: parametersDict as! [AnyHashable : Any], successBlock: { (account:AccountInfo?) in
-            
-            imageView.isHighlighted = false
-            imageView.layer.removeAllAnimations()
-            if (account?.store())!
-            {
-                print("登录成功")
-                self.loginSuccess()
-            }
-            
-        }) { (error:Error?) in
-            
-            imageView.isHighlighted = false
-            imageView.layer.removeAllAnimations()
-            
-            ErrorTipView.errorTip(error?.localizedDescription, superView: self.view)
+        imageView.isHighlighted = false
+        imageView.layer.removeAllAnimations()
+        if (AccountInfo.standard()?.store())! {
+            print("登录成功")
+            self.loginSuccess()
         }
-        
     }
     
-    
-    private func loginSuccess()
-    {
+    private func loginSuccess(){
         let productTypeVC = ProductTypeSetVC()
         let nav = UINavigationController.init(rootViewController: productTypeVC)
         nav.isNavigationBarHidden = true
@@ -356,13 +290,11 @@ class LoginViewController: LoginBaseViewController,UINavigationControllerDelegat
         }
     }
     
-    private func localNoAppTip(platform:String)
-    {
+    private func localNoAppTip(platform:String){
         let alertController = UIAlertController.init(title: "温馨提示", message: "由于本地没有安装\(platform)，所以您无法获得\(platform)的授权", preferredStyle: .alert)
         let cancelAction = UIAlertAction.init(title: "我知道了", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
-        
     }
     
     private func rotationCircleAnimation(superView:UIView)

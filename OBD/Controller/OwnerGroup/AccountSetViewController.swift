@@ -11,7 +11,6 @@ import UIKit
 //账号设置
 class AccountSetViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
-    
     private let httpManager:LoginHttpManager = LoginHttpManager.init()
 
     private lazy var tableView:UITableView =
@@ -50,7 +49,6 @@ class AccountSetViewController: UIViewController,UITableViewDataSource,UITableVi
         self.navigationItem.title = "账号设置"
         let leftItem = LeftBackItem.init(target: self, selector: #selector(leftItemClick))
         self.navigationItem.leftBarButtonItem = leftItem
-        
         
         self.view.backgroundColor = UIColor.RGBA(51, 51, 51, 1)
         

@@ -12,7 +12,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-
 @end
 
 //4000 1S

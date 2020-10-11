@@ -16,22 +16,17 @@ class BluetoothSetVC: UIViewController
     let describeLable = UILabel.init()
 
     
-    
-    deinit
-    {
+    deinit{
         OBDCentralMangerModel.shared().removeObserver(self, forKeyPath: "linkState")
         NotificationCenter.default.removeObserver(self)
         print("BluetoothSetVC ======= 释放")
     }
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad(){
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
-        
-        
+                
         NotificationCenter.default.addObserver(self, selector: #selector(enterForegroundNotification(notification:)), name: UIApplication.willEnterForegroundNotification, object: nil)
         OBDCentralMangerModel.shared().addObserver(self, forKeyPath: "linkState", options: .new, context: nil)
         
@@ -159,23 +154,12 @@ class BluetoothSetVC: UIViewController
         }
     }
     
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
     //点击按钮事件
-    @objc func bluetoothSetButtonClick()
-    {
-        
-        switch OBDCentralMangerModel.shared().linkState
-        {
+    @objc func bluetoothSetButtonClick(){
+        switch OBDCentralMangerModel.shared().linkState {
         case .bluetoothOff:
             let url:NSURL = NSURL(string: "App-Prefs:root=Bluetooth")!
-            if UIApplication.shared.canOpenURL(url as URL)
-            {
+            if UIApplication.shared.canOpenURL(url as URL){
                 UIApplication.shared.openURL(url as URL)
             }
             break
@@ -260,6 +244,8 @@ class BluetoothSetVC: UIViewController
     
     func rotationCircleAnimation(superView:UIView)
     {
+
+        
         let animation = CABasicAnimation.init(keyPath: "transform.rotation.z")
         animation.fromValue = NSNumber.init(value: 0)
         animation.toValue = NSNumber.init(value: M_PI * 2)
@@ -270,19 +256,14 @@ class BluetoothSetVC: UIViewController
         superView.layer.add(animation, forKey: "rotationCircleAnimation")
     }
     
-    
-    @objc private func scanSuccessStateClick()
-    {
+    @objc private func scanSuccessStateClick() {
         // 链接成功
         //1、是否链接到盒子
         //2、跳转至主界面
         
-        if  LocalConfigurationData.getBoxControlIsLinked()
-        {
+        if LocalConfigurationData.getBoxControlIsLinked() {
             jumpJoinMainHomePage()
-        }
-        else
-        {
+        } else {
             let boxSetVC = ControlBoxSetVC()
             let nav = UINavigationController.init(rootViewController: boxSetVC)
             nav.isNavigationBarHidden = true
@@ -303,7 +284,6 @@ class BluetoothSetVC: UIViewController
             print("默认")
             
             let pageVC = PageOneViewController()
-            
             let nav = UINavigationController.init(rootViewController: pageVC)
             nav.isNavigationBarHidden = true
             let window:UIWindow = ((UIApplication.shared.delegate?.window)!)!
@@ -321,7 +301,6 @@ class BluetoothSetVC: UIViewController
             let fwdVC = FWDMainViewController()
             let nav = UINavigationController.init(rootViewController: fwdVC)
             
-            
             UIView.transition(from: self.view, to: fwdVC.view, duration: 0.5, options: .transitionFlipFromLeft)
             { (finished) in
                 UIApplication.shared.keyWindow?.rootViewController = nav
@@ -333,7 +312,6 @@ class BluetoothSetVC: UIViewController
             
             let fwdVC = FWDMainViewController()
             let nav = UINavigationController.init(rootViewController: fwdVC)
-            
             
             UIView.transition(from: self.view, to: fwdVC.view, duration: 0.5, options: .transitionFlipFromLeft)
             { (finished) in

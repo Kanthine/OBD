@@ -11,7 +11,6 @@ import UIKit
 //产品类型选择
 class ProductTypeSetVC: UIViewController {
 
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -72,22 +71,13 @@ class ProductTypeSetVC: UIViewController {
                 make.height.equalTo()(defaultView)
         }
         
-        
-        
         defaultView.button?.addTarget(self, action: #selector(defaultButtonClick), for: .touchUpInside)
         fwdView.button?.addTarget(self, action: #selector(fwdButtonClick), for: .touchUpInside)
-    }
-    
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @objc func defaultButtonClick()
     {
         LocalConfigurationData.setUserBrandType(.default)
-        
         self.bluetoothSetClick()
     }
     
@@ -95,14 +85,12 @@ class ProductTypeSetVC: UIViewController {
     @objc func fwdButtonClick()
     {
         LocalConfigurationData.setUserBrandType(.FWD)
-        
         self.bluetoothSetClick()
     }
     
     
     func bluetoothSetClick()
     {
-
         let bluetoothVC = BluetoothSetVC()
         let nav = UINavigationController.init(rootViewController: bluetoothVC)
         nav.isNavigationBarHidden = true
