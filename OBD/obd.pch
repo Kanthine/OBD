@@ -1,0 +1,86 @@
+//
+//  obd.pch
+//  OBD
+//
+//  Created by Why on 16/1/14.
+//  Copyright © 2016年 Why. All rights reserved.
+//
+
+#ifndef obd_pch
+#define obd_pch
+#import "WHYLanguageTool.h"
+
+#define WHYGetStringWithKeyFromTable(key, tbl) [[WHYLanguageTool sharedInstance] getStringForKey:key withTable:tbl]
+/**
+ *  Controller
+ */
+#import "BaseViewController.h"
+#import "OBDModel.h"
+#import "OBDCentralMangerModel.h"
+#import "OBDMainViewController.h"
+
+/**
+ *  Model
+ */
+#import "PointModel.h"
+#import "WHYToolModel.h"
+#import "CurrentOBDModel.h"
+#import "OBDOrderManager.h"
+/**
+ *  自己写的扩展
+ */
+#import "UIColor+ConvertHexsToColor.h"
+#import "WHYSizeManager.h"
+/**
+ *  第三方框架
+ */
+#import "PNChart.h"
+#import "Masonry.h"
+#import "MBProgressHUD.h"
+//屏幕的物理高度和宽度
+//#define ISFISTVIEW (((AppDelegate *)[UIApplication sharedApplication].delegate).isNoFistView)
+//#define APP (((AppDelegate *)[UIApplication sharedApplication].delegate))
+#define SWITCHSTATUS @"switchStatus"
+#define YMAPPKEY @"570b09efe0f55ab9f9000974"
+#define ZHUANSUFAZHI @"zhuansufazhi"
+#define YANCHITIME @"yanchiTime"
+#define RGBA(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+
+
+#define IPHONE5Weight 375
+#define IPHONT5SHeight 567
+#define ScreenWidth    [UIScreen mainScreen].bounds.size.width
+#define ScreenHeight   [UIScreen mainScreen].bounds.size.height
+
+#define Alert(msg) [[[UIAlertView alloc]initWithTitle:WHYGetStringWithKeyFromTable(@"CONTENTVIEW_TISHI", @"") message:msg delegate:nil cancelButtonTitle:WHYGetStringWithKeyFromTable(@"KNOW", @"") otherButtonTitles:nil, nil] show];
+
+
+
+// 是否Retina屏
+#define isRetina                ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+CGSizeEqualToSize(CGSizeMake(640, 960), \
+[[UIScreen mainScreen] currentMode].size) : \
+NO)
+
+// 是否iPhone6P
+#define isiPhone6P               ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+CGSizeEqualToSize(CGSizeMake(1242, 2208), \
+[[UIScreen mainScreen] currentMode].size) : \
+NO)
+// 是否iPhone6
+#define isiPhone6               ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+CGSizeEqualToSize(CGSizeMake(750, 1334), \
+[[UIScreen mainScreen] currentMode].size) : \
+NO)
+// 是否iPhone5
+#define isiPhone5               ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+CGSizeEqualToSize(CGSizeMake(640, 1136), \
+[[UIScreen mainScreen] currentMode].size) : \
+NO)
+// 是否iPhone4
+#define isiPhone4               ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
+CGSizeEqualToSize(CGSizeMake(640, 960), \
+[[UIScreen mainScreen] currentMode].size) : \
+NO)
+
+#endif /* obd_pch */
