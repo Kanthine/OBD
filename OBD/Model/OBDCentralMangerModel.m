@@ -13,54 +13,43 @@
 
 @interface OBDCentralMangerModel()
 @property (copy, nonatomic) NSString *productName;
-
+@property (nonatomic ,strong) NSTimer *timer;
 @end
 
 @implementation OBDCentralMangerModel
 
-+ (OBDCentralMangerModel*)sharedOBDCentralMangerModel
-{
++ (OBDCentralMangerModel*)sharedOBDCentralMangerModel{
     static OBDCentralMangerModel * centralModel = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-    {
+    dispatch_once(&onceToken, ^{
         centralModel = [[OBDCentralMangerModel alloc]init];
     });
     return centralModel;
 }
 
-- (instancetype)init
-{
-    if (self)
-    {
+- (instancetype)init{
+    if (self){
         //  初始化中央管理器
         self.centralManager = [[CBCentralManager alloc]initWithDelegate:self queue:nil];
         self.cbCharacteristicArray = [NSMutableArray array];
         _linkState = OBDLinkStateBluetoothOff;
+        [self timer];
     }
     return self;
 }
 
-- (void)setLinkState:(OBDLinkState)linkState
-{
+- (void)setLinkState:(OBDLinkState)linkState{
     _linkState = linkState;
-    
-    
-    if (linkState == OBDLinkStateScanSuccess)
-    {
+    if (linkState == OBDLinkStateScanSuccess){
         [OBDThisTimeData isAgainLinkedOBD:YES];
-    }
-    else
-    {
+    }else{
         [OBDThisTimeData isAgainLinkedOBD:NO];
     }
 }
 
-- (NSString *)productName
-{
+- (NSString *)productName{
     NSString *name = @"";
-    switch ([AuthorizationManager getUserBrandType])
-    {
+    switch ([AuthorizationManager getUserBrandType]){
         case UserProductTypeNone:
             name = @"";
             break;
@@ -77,21 +66,16 @@
 }
 
 //中央管理器状态 ----> 查看蓝牙开关状态
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central
-{
-    switch (central.state)
-    {
-        case CBCentralManagerStatePoweredOff://蓝牙关闭
-        {
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central{
+    switch (central.state){
+        case CBCentralManagerStatePoweredOff:{//蓝牙关闭
             [CurrentOBDModel sharedCurrentOBDModel].processStatus = @"1";
             [self brokeBluetoothLink];
             [[CurrentOBDModel sharedCurrentOBDModel]cleanData];
             self.linkState = OBDLinkStateBluetoothOff;
             NSLog(@"蓝牙关闭");
-        }
-            break;
-        case CBCentralManagerStatePoweredOn://蓝牙打开
-        {
+        }break;
+        case CBCentralManagerStatePoweredOn:{//蓝牙打开
             [CurrentOBDModel sharedCurrentOBDModel].processStatus = @"2";
             self.linkState = OBDLinkStateBluetoothOn;
             [self scanPeripherals];
@@ -100,8 +84,7 @@
                 [self.cbCharacteristicArray removeAllObjects];
             }
             NSLog(@"蓝牙打开");
-        }
-            break;
+        }break;
         case CBCentralManagerStateUnknown://未知
             self.linkState = OBDLinkStateBluetoothOff;
             NSLog(@">>>CBCentralManagerStateUnknown");
@@ -125,18 +108,13 @@
 
 #pragma mark CBCentralManagerDelegate  连接外设
 
-/*
- serviceUUIDs：代表该app所感兴趣的服务uuids数组（也就是该app想要连接的外设）
- 扫描周边设备方法
+/** 重新扫描链接
+ * serviceUUIDs：代表该app所感兴趣的服务uuids数组（也就是该app想要连接的外设）
  */
-- (void)scanPeripherals
-{
-    if ([AuthorizationManager getUserBrandType] == UserProductTypeNone)
-    {
+- (void)scanPeripherals{
+    if ([AuthorizationManager getUserBrandType] == UserProductTypeNone){
         //如果没有选择产品类型，提醒用户去选择产品类型
-    }
-    else
-    {
+    }else{
         //只有选择了产品类型 扫描才有意义
         self.linkState = OBDLinkStateStartScan;
         [_centralManager scanForPeripheralsWithServices:nil options:nil];
@@ -144,33 +122,26 @@
     }
 }
 
-/*
- *  每当扫描到一个外部设备，就会调用委托对象中的以下方法
+/**  每当扫描到一个外部设备，就会调用委托对象中的以下方法
  */
-- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI
-{
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI{
     NSLog(@"扫描到的外设名字 ------ %@",peripheral);
 
     NSLog(@"扫描到的外设名字:%@",peripheral.name);
-    if (self.discoveredPeripheral != peripheral)
-    {
+    if (self.discoveredPeripheral != peripheral){
         self.discoveredPeripheral = peripheral;
-        if ([peripheral.name isEqualToString:self.productName])
-        {
+        if ([peripheral.name isEqualToString:self.productName]){
             //连接外设
             [central connectPeripheral:peripheral options:nil];
         }
-    }
-    else
-    {
+    }else{
         [central stopScan]; //停止扫描
         [self brokeBluetoothLink];
         [self brokeBluetoothLink];//开始扫描外设
     }
 }
 
-/*
- * 成功的连接到了外部设备
+/** 成功的连接到了外部设备
  */
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
@@ -263,50 +234,30 @@
 
 #pragma mark --服务特征数据 一直更新--
 
-- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
-{
-    if (error)
-    {
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
+    if (error){
         NSLog(@"Error discovering characteristics: %@", [error localizedDescription]);
         return;
     }
     
     NSString *stringFromData = [[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
-    
-    if ([stringFromData containsString:@"$OBD,00"] == NO)
-    {
-        NSLog(@"stringFromData ======= %@",stringFromData);
-    }
-//    NSLog(@"stringFromData ======= %@",stringFromData);
-
-    
-    [[OBDModelManager sharedOBDModelManager]managerODBMessageWithStr:stringFromData complete:^(id object, BOOL isByteFlue)
-    {
-        if ([object isKindOfClass:[OBDModel class]])
-        {
+    stringFromData = OBDModelManager.sharedOBDModelManager.demoString;///假数据
+    [OBDModelManager.sharedOBDModelManager managerODBMessageWithStr:stringFromData complete:^(id object, BOOL isByteFlue){
+        if ([object isKindOfClass:[OBDModel class]]){
             [CurrentOBDModel sharedCurrentOBDModel].currentModel = (OBDModel*)object;
-        }
-        else if ([object isKindOfClass:[CommandModel class]])
-        {
+        }else if ([object isKindOfClass:[CommandModel class]]){
             CommandModel * model = (CommandModel*)object;
             [CurrentOBDModel sharedCurrentOBDModel].currentCommandModel = (CommandModel*)object;
-//            NSLog(@"model.message ==== %@",model.message);
         }
     }];
 }
 
-- (void)brokeBluetoothLink
-{
-    if (self.discoveredPeripheral.services != nil && self.discoveredPeripheral.services.count > 0 )
-    {
-        for (CBService * service in self.discoveredPeripheral.services)
-        {
-            if (service.characteristics != nil&&service.characteristics.count>0)
-            {
-                for (CBCharacteristic * characteristic in service.characteristics)
-                {
-                    if (characteristic.isNotifying)
-                    {
+- (void)brokeBluetoothLink{
+    if (self.discoveredPeripheral.services != nil && self.discoveredPeripheral.services.count > 0 ){
+        for (CBService * service in self.discoveredPeripheral.services){
+            if (service.characteristics != nil&&service.characteristics.count>0){
+                for (CBCharacteristic * characteristic in service.characteristics){
+                    if (characteristic.isNotifying){
                         [self.discoveredPeripheral setNotifyValue:NO forCharacteristic:characteristic];
                         return;
                     }
@@ -315,8 +266,7 @@
         }
     }
     // If we've got this far, we're connected, but we're not subscribed, so we just disconnect
-    if (_discoveredPeripheral != nil)
-    {
+    if (_discoveredPeripheral != nil){
         //取消外设连接
         //该方法调用后会触发委托中的方法：centralManager:didDisconnectPeripheral:error:
         [self.centralManager cancelPeripheralConnection:self.discoveredPeripheral];
@@ -336,6 +286,28 @@
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForDescriptor:(CBDescriptor *)descriptor error:(NSError *)error
 {
     NSLog(@"didWriteValueForDescriptor ======= error : %@",error.domain);
+}
+
+#pragma mark - Demo Data
+
+- (NSTimer *)timer{
+    if (_timer == nil) {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerUpdateClick) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
+    }
+    return _timer;
+}
+
+- (void)timerUpdateClick{
+    NSString *stringFromData = OBDModelManager.sharedOBDModelManager.demoString;///假数据
+    [OBDModelManager.sharedOBDModelManager managerODBMessageWithStr:stringFromData complete:^(id object, BOOL isByteFlue){
+        if ([object isKindOfClass:[OBDModel class]]){
+            [CurrentOBDModel sharedCurrentOBDModel].currentModel = (OBDModel*)object;
+        }else if ([object isKindOfClass:[CommandModel class]]){
+            CommandModel * model = (CommandModel*)object;
+            [CurrentOBDModel sharedCurrentOBDModel].currentCommandModel = (CommandModel*)object;
+        }
+    }];
 }
 
 

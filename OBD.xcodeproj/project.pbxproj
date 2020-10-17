@@ -221,7 +221,6 @@
 		2284F7741EBAF7A600D63826 /* ConsoleOutPutChinese.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleOutPutChinese.m; sourceTree = "<group>"; };
 		2284F7761EBAF8D900D63826 /* AccountInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountInfo.h; sourceTree = "<group>"; };
 		2284F7771EBAF8D900D63826 /* AccountInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountInfo.m; sourceTree = "<group>"; };
-		2284F7781EBAF8D900D63826 /* DataModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModels.h; sourceTree = "<group>"; };
 		2284F77C1EBB1B7600D63826 /* ErrorTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorTipView.h; sourceTree = "<group>"; };
 		2284F77D1EBB1B7600D63826 /* ErrorTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorTipView.m; sourceTree = "<group>"; };
 		22B734441EB32CD400FC2D4B /* ControlBoxWaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlBoxWaveView.h; sourceTree = "<group>"; };
@@ -736,7 +735,6 @@
 				96B469191CA541FC001EFEDD /* CurrentOBDModel.m */,
 				96EABEAD1CB4F8BB00C580C5 /* OBDOrderManager.h */,
 				96EABEAE1CB4F8BB00C580C5 /* OBDOrderManager.m */,
-				2284F7781EBAF8D900D63826 /* DataModels.h */,
 				2284F7761EBAF8D900D63826 /* AccountInfo.h */,
 				2284F7771EBAF8D900D63826 /* AccountInfo.m */,
 				22697D471ED2B35E007ADE9C /* BoxControlAutoModelConfiguration.h */,

@@ -89,16 +89,34 @@
 
 #pragma mark --管理--
 
+@interface OBDModelManager ()
+@end
+
 @implementation OBDModelManager
-+ (OBDModelManager*)sharedOBDModelManager
-{
++ (OBDModelManager*)sharedOBDModelManager{
     static  OBDModelManager * manager = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-    {
+    dispatch_once(&onceToken, ^{
         manager = [[OBDModelManager alloc]init];
     });
     return manager;
+}
+
+
+// 油耗
+- (NSString *)demoString{
+    NSArray *array = @[
+@"$OBD,00,62,1221 ,30 ,0,1, 0.1, 60, 90,  60 ,30, 80, 40 ,60, 36.8,105.63,5, 9.8,1,20,6.7,0.5,3,45\r\n",
+@"$OBD,00,62,2221 ,35 ,0.15,0.2, 70, 100, 130,50, 120,55 ,70, 57.2,282.15,5,10.5,1,30,8.5,1,8,30\r\n",
+@"$OBD,00,62,5221 ,50 ,0.18,0.15,80, 150, 155,60, 150,68 ,76, 60.6,350.21,5,12.6,1,50,6.8,2,10,50\r\n",
+@"$OBD,00,62,3221 ,40 ,0.19,0.25,80, 135, 192,65, 100,50 ,80, 50.3,421.56,5,15.8,1,70,9.7,10,20,55\r\n",
+@"$OBD,00,62,6221 ,60 ,0.2, 0.35,90, 130, 190,78, 136,70 ,90, 56.8,456.32,5,20.9,1,80.2,10.7,20.5,15,60\r\n",
+@"$OBD,00,62,7221 ,65 ,0.3, 0.5, 120,155, 200,86, 160,80 ,100,67.5,500.05,5,37.9,1,90,12.7,35.8,35,70\r\n",
+@"$OBD,00,62,8221 ,70 ,0.4, 0.6, 200,170, 210,90, 195,95 ,105,80.0,595.3 ,5,45.6,1,95,16.7,40,53,80\r\n",
+@"$OBD,00,62,10221,100,0.5, 0.75,290,210, 250,100,215,100,120,99.0,655.35,5,58.8,1,93,19.7,60,32,90\r\n",
+@"$OBD,00,62,5221 ,80 ,0.35,0.6, 230,200, 230,90, 200,90 ,110,89.0,605.5 ,5,48.9,1,99,9.7,9.5,17,85\r\n"
+    ];
+    return array[arc4random() % array.count];
 }
 
 - (void)managerODBMessageWithStr:(NSString*)receiveValueStr complete:(void(^)(id object,BOOL isByteFlue))completed

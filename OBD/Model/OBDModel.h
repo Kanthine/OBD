@@ -131,12 +131,14 @@
 
 
 @interface OBDModelManager : NSObject
+@property (nonatomic ,strong) NSString *demoString;
 + (OBDModelManager*)sharedOBDModelManager;
-/**
- *  转速阀值
- */
-@property(nonatomic,copy)NSString * checkTurnSpeed_Manager;
+//转速阀值
+@property(nonatomic,copy)NSString *checkTurnSpeed_Manager;
 
+/**
+ * @param receiveValueStr 蓝牙数据流；使用 demoString 替代
+ */
 - (void)managerODBMessageWithStr:(NSString*)receiveValueStr complete:(void(^)(id object,BOOL isByteFlue))completed;
 
 @end

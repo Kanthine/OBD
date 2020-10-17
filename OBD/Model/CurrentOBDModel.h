@@ -47,6 +47,7 @@ typedef void (^CheckDelayTimeChangeBlock)(NSString * delayTime);
 typedef void (^OxygenErrorCleanBlock) (NSString * oxygenError);
 typedef void (^BoxIDBlock) (NSString * boxID);
 @interface CurrentOBDModel : NSObject
+
 + (CurrentOBDModel*)sharedCurrentOBDModel;
 
 @property(nonatomic,strong)OBDModel * currentModel;
@@ -231,6 +232,5 @@ typedef void (^BoxIDBlock) (NSString * boxID);
  *  本地执行的盒子状态指令 本地保存一下
  */
 @property(nonatomic,copy)NSString * localSwitchStatus;
-
 
 @end

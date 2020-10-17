@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DataModels.h"
+#import "AccountInfo.h"
 
 @interface LoginHttpManager : NSObject
 

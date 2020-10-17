@@ -13,7 +13,6 @@
 //是否重新链接OBD 开始清零
 + (void)isAgainLinkedOBD:(BOOL)isAgain;
 
-
 // 本次行驶里程
 + (NSString *)getThisTimeDriveDistance:(NSString *)driveDistance;
 
