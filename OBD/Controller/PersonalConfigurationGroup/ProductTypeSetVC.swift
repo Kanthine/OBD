@@ -11,12 +11,10 @@ import UIKit
 //产品类型选择
 class ProductTypeSetVC: UIViewController {
 
-    override func viewDidLoad()
-    {
+    override func viewDidLoad(){
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        
         
         let backImageView:UIImageView = UIImageView.init(image: UIImage.init(named: "LoginRegister_LoginBack"))
         backImageView.backgroundColor = UIColor.clear
@@ -46,31 +44,25 @@ class ProductTypeSetVC: UIViewController {
         defaultView.logo = "LoginRegister_FaceBook"
         defaultView.setSubView()
         self.view.addSubview(defaultView)
-        defaultView.mas_makeConstraints
-            {
-                (make:MASConstraintMaker!) in
-                make.top.equalTo()(titleLable.mas_bottom)?.with().offset()(30)
-                make.centerY.equalTo()(self.view.mas_centerY)?.with().offset()(-50)
-                make.left.mas_equalTo()(50)
-                make.right.mas_equalTo()(-50)
-                make.height.mas_equalTo()(defaultView.mas_width)?.multipliedBy()(54/262.0)
+        defaultView.mas_makeConstraints{ (make:MASConstraintMaker!) in
+            make.top.equalTo()(titleLable.mas_bottom)?.with().offset()(30)
+            make.centerY.equalTo()(self.view.mas_centerY)?.with().offset()(-50)
+            make.left.mas_equalTo()(50)
+            make.right.mas_equalTo()(-50)
+            make.height.mas_equalTo()(defaultView.mas_width)?.multipliedBy()(54/262.0)
         }
-        
         
         let fwdView = LoginThirdPartySingleView()
         fwdView.title = "FWD"
         fwdView.logo = "LoginRegister_FaceBook"
         fwdView.setSubView()
         self.view.addSubview(fwdView)
-        fwdView.mas_makeConstraints
-            {
-                (make:MASConstraintMaker!) in
-                make.top.equalTo()(defaultView.mas_bottom)?.with().offset()(30)
-                make.centerX.equalTo()(self.view.mas_centerX)
-                make.width.equalTo()(defaultView)
-                make.height.equalTo()(defaultView)
+        fwdView.mas_makeConstraints{ (make:MASConstraintMaker!) in
+            make.top.equalTo()(defaultView.mas_bottom)?.with().offset()(30)
+            make.centerX.equalTo()(self.view.mas_centerX)
+            make.width.equalTo()(defaultView)
+            make.height.equalTo()(defaultView)
         }
-        
         defaultView.button?.addTarget(self, action: #selector(defaultButtonClick), for: .touchUpInside)
         fwdView.button?.addTarget(self, action: #selector(fwdButtonClick), for: .touchUpInside)
     }
@@ -80,7 +72,6 @@ class ProductTypeSetVC: UIViewController {
         LocalConfigurationData.setUserBrandType(.default)
         self.bluetoothSetClick()
     }
-    
     
     @objc func fwdButtonClick()
     {
