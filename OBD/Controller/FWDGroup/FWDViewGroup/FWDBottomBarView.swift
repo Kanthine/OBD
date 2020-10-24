@@ -15,19 +15,15 @@ class FWDBottomBarView: UIView {
 
     public func setFWDBottomBarView(navBarShow:Bool)
     {
-        let bottomHeight = UIScreen.ScrWidth() * 150.0 / 750.0
+        let bottomHeight = (UIScreen.ScrWidth() * 150.0 / 750.0) + (isIPhoneNotchScreen() ? 34 : 0)
         
-        if navBarShow
-        {
-            self.frame = CGRect.init(x: 0, y: UIScreen.ScrHeight() - bottomHeight - 64, width: UIScreen.ScrWidth(), height: bottomHeight)
-        }
-        else
-        {
+        if navBarShow{
+            self.frame = CGRect.init(x: 0, y: UIScreen.ScrHeight() - bottomHeight - getNavigationBarHeight(), width: UIScreen.ScrWidth(), height: bottomHeight)
+        }else{
             self.frame = CGRect.init(x: 0, y: UIScreen.ScrHeight() - bottomHeight, width: UIScreen.ScrWidth(), height: bottomHeight)
         }
         
         self.backgroundColor = UIColor.clear
-        
         
         let bottomImageView:UIImageView = UIImageView.init(image: UIImage.init(named: "FWD_BaseBottom"))
         bottomImageView.backgroundColor = UIColor.clear
@@ -49,7 +45,8 @@ class FWDBottomBarView: UIView {
         self.addSubview(bottomLogoButton)
         bottomLogoButton.mas_makeConstraints
             {[weak self](make:MASConstraintMaker!) in
-                make.center.equalTo()(self)
+            make.top.mas_equalTo()(20)
+                make.centerX.equalTo()(self)
                 make.height.mas_equalTo()(logoWidth)
                 make.width.mas_equalTo()(logoWidth)
         }

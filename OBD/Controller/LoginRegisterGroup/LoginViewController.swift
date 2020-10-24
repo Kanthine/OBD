@@ -108,7 +108,7 @@ class LoginViewController: LoginBaseViewController,UINavigationControllerDelegat
             make.left.equalTo()(50)
             make.right.equalTo()(-50)
             make.height.equalTo()(50)
-            make.bottom.equalTo()(0)
+            make.bottom.equalTo()(-getTabBarHeight())
         }
     }
     
@@ -128,6 +128,7 @@ class LoginViewController: LoginBaseViewController,UINavigationControllerDelegat
         
         AccountInfo.standard()?.phone = accountView.textFiled.text
         AccountInfo.standard()?.password = passwordView.textFiled.text
+        AccountInfo.standard()?.uToken = passwordView.textFiled.text
         hud.hide(animated: true)
  
         if (AccountInfo.standard()?.store())!{

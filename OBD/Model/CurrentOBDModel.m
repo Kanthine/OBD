@@ -142,11 +142,16 @@ block(__VA_ARGS__);\
     if (_errcodeNum != errcodeNum) {
         _errcodeNum = errcodeNum;
     }
+    
+    if (_errorcode == nil) {
+        _errorcode = @"";
+    }
+    
     if (self.errorcodeBlock) {
         self.errorcodeBlock(_errcodeNum);
     }
 }
-- (void)obdErrorcodeNumChangeBlock:(ErrorCodeNumBlock)block{
+- (void)obdErrorcodeNumChangeBlock:(void(^)(NSString * errcodeNum))block{
     self.errorcodeBlock = nil;
     self.errorcodeBlock = [block copy];
 }

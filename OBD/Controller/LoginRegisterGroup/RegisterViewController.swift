@@ -75,7 +75,7 @@ class RegisterViewController: LoginBaseViewController
             (make:MASConstraintMaker!) in
             make.left.mas_equalTo()(40)
             make.right.mas_equalTo()(-40)
-            make.bottom.equalTo()(-40)
+            make.bottom.equalTo()(-getTabBarHeight())
             make.height.equalTo()(50)
         }
         
@@ -333,6 +333,7 @@ class RegisterViewController: LoginBaseViewController
         
         AccountInfo.standard()?.phone = accountView.textFiled.text
         AccountInfo.standard()?.password = passwordView.textFiled.text
+        AccountInfo.standard()?.uToken = passwordView.textFiled.text
         AccountInfo.standard()?.store()
         self.loginSuccessNextStep()
     }

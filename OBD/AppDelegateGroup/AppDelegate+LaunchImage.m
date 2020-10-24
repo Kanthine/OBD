@@ -21,8 +21,7 @@
 @implementation AppDelegate (LaunchImage)
 SpLanuchView * spLaunchView;
 
-- (void)launch_Application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (void)launch_Application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent];
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav_BarBack"] forBarMetrics:UIBarMetricsDefault];

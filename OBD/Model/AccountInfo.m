@@ -122,17 +122,13 @@ NSString *const kAccountInfoIsSpecial = @"is_special";
 
 static  AccountInfo*user = nil;
 static dispatch_once_t rootOnceToken;
-+ (AccountInfo *)standardAccountInfo
-{
-    dispatch_once(&rootOnceToken, ^
-                  {
-                      user = [AccountInfo readAccountInfo];
-                      if (user == nil)
-                      {
-                          user = [[AccountInfo alloc]init];
-                      }
-                  });
-    
++ (AccountInfo *)standardAccountInfo{
+    dispatch_once(&rootOnceToken, ^{
+        user = [AccountInfo readAccountInfo];
+        if (user == nil){
+            user = [[AccountInfo alloc]init];
+        }
+    });
     return user;
 }
 
@@ -158,6 +154,8 @@ static dispatch_once_t rootOnceToken;
 
 - (BOOL)storeAccountInfo
 {
+    self.userId = @"123456";
+    
     //    把原本不能够直接写入到文件中的对象(_array)--->>编码成NSData--->writeToFile
     
     // 1,创建一个空的data(类似于一个袋子),用来让序列化器把 编码之后的data存放起来

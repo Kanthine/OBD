@@ -24,23 +24,7 @@
  */
 - (void)getVerificationCodeWithParameterDict:(NSDictionary *)parameterDict SuccessBlock:(void (^)(NSString *verString))successBlock FailBlock:(void(^) (NSError *error))failBlock;
 
-/*
- * 注册
- * parameterDict 登录时需要参数：
- * mobile_phone ： 手机号
- * salt ：验证码
- * password 密码
- * froms : 苹果开发填写iOS 安卓开发填写Android
- */
-- (void)regiserAccountWithParameter:(NSDictionary *)parametersDict SuccessBlock:(void (^)(NSString *verString))successBlock FailBlock:(void(^) (NSError *error))failBlock;
 
-/*
- * 登录
- * parameterDict 登录时需要参数：
- * user_name ： 手机号
- * password 密码
- */
-- (void)loginWithAccount:(NSString *)numberString Password:(NSString *)pwdString SuccessBlock:(void (^)(AccountInfo *acount))successBlock FailBlock:(void(^) (NSError *error))failBlock;
 
 
 /*

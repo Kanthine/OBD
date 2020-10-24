@@ -24,7 +24,6 @@ typedef void (^OilAvergageLossBlock)(NSString * currentOilLoss);
 typedef void (^FeatsOpeningBlock)(NSString * featsOpening);
 typedef void (^EngineLoadBlock) (NSString * engineLoad);
 typedef void (^BluetoothOnBlock)(NSString * bluethOn);
-typedef void (^ErrorCodeNumBlock)(NSString * errcodeNum);
 typedef void (^CarSpeedBlock)(NSString * carSpeed);
 typedef void (^TurnSpeedBlock)(NSString * turnSpeed);
 typedef void (^WaterTempBlock)(NSString * waterTemp);
@@ -74,8 +73,8 @@ typedef void (^BoxIDBlock) (NSString * boxID);
  *  故障码数量变化
  */
 @property(nonatomic,copy)NSString * errcodeNum;
-@property(nonatomic,copy)ErrorCodeNumBlock errorcodeBlock;
-- (void)obdErrorcodeNumChangeBlock:(ErrorCodeNumBlock)block;
+@property(nonatomic,copy) void(^errorcodeBlock)(NSString * errcodeNum);
+- (void)obdErrorcodeNumChangeBlock:(void(^)(NSString * errcodeNum))block;
 /**
  *  状态 1蓝牙关-》打开蓝牙2蓝牙开-》链接obd3链接上obd了-》显示开关状态
  */

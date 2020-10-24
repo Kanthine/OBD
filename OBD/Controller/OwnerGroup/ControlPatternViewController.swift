@@ -54,7 +54,7 @@ class ControlPatternViewController: UIViewController,ControlPatternItemViewDeleg
 
         
         mainView.tag = 10
-        mainView.frame = CGRect.init(x: (UIScreen.ScrWidth() - itemWidth) / 2.0, y: (UIScreen.ScrHeight() - itemHieght * 3 - 10 * 2 - 64 - bottomHeight) / 2.0, width: itemWidth, height: itemHieght * 3 + 10 * 2)
+        mainView.frame = CGRect.init(x: (UIScreen.ScrWidth() - itemWidth) / 2.0, y: (UIScreen.ScrHeight() - itemHieght * 3 - 10 * 2 - getNavigationBarHeight() - bottomHeight) / 2.0, width: itemWidth, height: itemHieght * 3 + 10 * 2)
         mainView.backgroundColor = UIColor.clear
 
         

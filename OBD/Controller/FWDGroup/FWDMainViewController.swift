@@ -10,25 +10,20 @@ import UIKit
 
 class FWDMainViewController: UIViewController ,UINavigationControllerDelegate
 {
-    private let topHeight = UIScreen.ScrWidth() * 162 / 750.0
+    private let topHeight = UIScreen.ScrWidth() * 162 / 750.0 + (isIPhoneNotchScreen() ? 24 : 0)
     private var _leftViewShow:Bool = false
     private var _isHaveError:Bool = false
-
     
     private let _leftView:UIView = UIView.init(frame: CGRect.init(x: -UIScreen.ScrWidth(), y: 0, width: UIScreen.ScrWidth(), height: UIScreen.ScrHeight()))
     
     private let _rightScrollView:UIScrollView = UIScrollView.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.ScrWidth(), height: UIScreen.ScrHeight()))
-
     
-    deinit
-    {
+    deinit{
         OBDCentralMangerModel.shared().removeObserver(self, forKeyPath: "linkState")
         print("FWDMainViewController ======= 释放")
     }
-
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad(){
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -80,22 +75,17 @@ class FWDMainViewController: UIViewController ,UINavigationControllerDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    private func setSelfView(superView:UIView)
-    {
+    private func setSelfView(superView:UIView){
         let screenEdgePanGesture = UIScreenEdgePanGestureRecognizer.init(target: self, action: #selector(screenEdgePanGesture(screenEdgeGesture:)))
         screenEdgePanGesture.edges = .left
         superView.addGestureRecognizer(screenEdgePanGesture)
         
-        
         let backImageView:UIImageView = UIImageView.init(image: UIImage.init(named: "FWD_BaseBack"))
         backImageView.backgroundColor = UIColor.clear
         superView.addSubview(backImageView)
-        backImageView.mas_makeConstraints
-            {
-                (make:MASConstraintMaker!) in
-                make.edges.equalTo()(superView)
+        backImageView.mas_makeConstraints{(make:MASConstraintMaker!) in
+            make.edges.equalTo()(superView)
         }
-        
         
         superView.addSubview(_rightScrollView)
         superView.addSubview(_leftView)
@@ -108,20 +98,18 @@ class FWDMainViewController: UIViewController ,UINavigationControllerDelegate
         self.setScrollViewSubView(superScrollView: _rightScrollView)
     }
     
-    private func setTopView(superView:UIView)
-    {
+    private func setTopView(superView:UIView){
         let topImageView:UIImageView = UIImageView.init(image: UIImage.init(named: "FWD_BaseTop"))
         topImageView.backgroundColor = UIColor.clear
         superView.addSubview(topImageView)
-        topImageView.mas_makeConstraints
-            {
-                (make:MASConstraintMaker!) in
-                make.left.mas_equalTo()(0)
-                make.top.mas_equalTo()(0)
-                make.right.mas_equalTo()(0)
-                make.height.mas_equalTo()(self.topHeight)
+        topImageView.mas_makeConstraints{(make:MASConstraintMaker!) in
+            make.left.mas_equalTo()(0)
+            make.top.mas_equalTo()(0)
+            make.right.mas_equalTo()(0)
+            make.height.mas_equalTo()(self.topHeight)
         }
         
+        let height = self.topHeight - (isIPhoneNotchScreen() ? 24 : 0)
         
         let topLogoImageView:UIImageView = UIImageView.init(image: UIImage.init(named: "FWD_TopNormal"), highlightedImage: UIImage.init(named: "FWD_TopBad"))
         topLogoImageView.backgroundColor = UIColor.clear
@@ -131,9 +119,9 @@ class FWDMainViewController: UIViewController ,UINavigationControllerDelegate
             {[weak self]
                 (make:MASConstraintMaker!) in
                 make.centerX.equalTo()(self?.view.mas_centerX)
-                make.top.mas_equalTo()((self?.topHeight)! * 0.5)
-                make.height.mas_equalTo()((self?.topHeight)! * 0.7)
-                make.width.mas_equalTo()((self?.topHeight)! * 0.7)
+            make.top.mas_equalTo()(self!.topHeight * 0.5)
+            make.height.mas_equalTo()(height * 0.7)
+            make.width.mas_equalTo()(height * 0.7)
         }
 
         
@@ -149,15 +137,16 @@ class FWDMainViewController: UIViewController ,UINavigationControllerDelegate
                 make.height.mas_equalTo()((self?.topHeight)! * 0.8)
                 make.width.mas_equalTo()((self?.topHeight)! * 0.8)
         }
-
         
-        CurrentOBDModel.shared().obdErrorcodeNumChange {[weak self] (errcodeNum:String?) in
+        
+        CurrentOBDModel.shared().obdErrorcodeNumChange {[weak self] (errcodeNum:String!) in
             
             
             if (errcodeNum != nil)
             {
+                print(errcodeNum)
                 
-                let number:Int = Int(errcodeNum!)!
+                let number:Int = Int(errcodeNum) ?? 0
                 
                 if number > 0
                 {
@@ -265,9 +254,7 @@ class FWDMainViewController: UIViewController ,UINavigationControllerDelegate
             self._leftView.frame = CGRect.init(x: -UIScreen.ScrWidth(), y: 0, width: UIScreen.ScrWidth(), height: UIScreen.ScrHeight())
             
             self._rightScrollView.frame = CGRect.init(x: 0, y: 0, width: UIScreen.ScrWidth(), height: UIScreen.ScrHeight())
-            
-        }
-        
+        }        
         _leftViewShow = false
     }
     

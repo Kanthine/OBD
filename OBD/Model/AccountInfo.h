@@ -7,8 +7,6 @@
 
 #import <Foundation/Foundation.h>
 
-
-
 @interface AccountInfo : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) NSString *email;

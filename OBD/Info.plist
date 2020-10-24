@@ -20,6 +20,11 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+    
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>使用蓝牙</string>
+    
+    
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

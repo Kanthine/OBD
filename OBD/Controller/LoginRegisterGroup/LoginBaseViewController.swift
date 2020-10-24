@@ -32,7 +32,6 @@ class LoginBaseViewController: UIViewController{
             make.bottom.equalTo()(0)
             make.height.mas_equalTo()(loginButton.mas_width)?.multipliedBy()(1.0)
         }
-        
         return nav
     }()
    
@@ -103,7 +102,7 @@ class LoginBaseViewController: UIViewController{
                 make.top.mas_equalTo()(0)
                 make.left.mas_equalTo()(0)
                 make.right.mas_equalTo()(0)
-                make.height.mas_equalTo()(64)
+                make.height.mas_equalTo()(getNavigationBarHeight())
         }
         
         
@@ -119,10 +118,7 @@ class LoginBaseViewController: UIViewController{
                 make.right.mas_equalTo()(0)
                 make.height.mas_equalTo()(30)
         }
-
-        
-        
-        
+                
         let button:UIButton = self.navBar.viewWithTag(1) as! UIButton
         button.addTarget(self, action: #selector(backButtonClick), for: .touchUpInside)
     }

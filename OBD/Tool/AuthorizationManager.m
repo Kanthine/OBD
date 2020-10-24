@@ -11,19 +11,15 @@
 
 @implementation AuthorizationManager
 
-+ (BOOL)isLoginState
-{
++ (BOOL)isLoginState{
     AccountInfo *user = [AccountInfo standardAccountInfo];
-    
     NSString *token = user.uToken;
     NSString *userID = user.userId;
     
-    if (token == nil || [token isEqualToString:@""])
-    {
+    if (token == nil || [token isEqualToString:@""]){
         return NO;
     }
-    if (userID == nil || [userID isEqualToString:@""])
-    {
+    if (userID == nil || [userID isEqualToString:@""]){
         return NO;
     }
     

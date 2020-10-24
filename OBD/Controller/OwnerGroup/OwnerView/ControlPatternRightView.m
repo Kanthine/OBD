@@ -169,6 +169,8 @@
     self = [super init];
     if (self)
     {
+        
+        
         self.backgroundColor = RGBA(232, 106, 90, 1);
         self.frame = CGRectMake(ScreenWidth, 0, ScreenWidth / 2.0, ScreenHeight - 64);
         

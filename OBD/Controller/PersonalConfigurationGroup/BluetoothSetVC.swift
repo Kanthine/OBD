@@ -40,7 +40,7 @@ class BluetoothSetVC: UIViewController
         }
         
         
-        let jumpView = BluetoothJumpView.init(frame: CGRect.init(x: UIScreen.ScrWidth() - 95, y: 30, width: 80, height: 33))
+        let jumpView = BluetoothJumpView.init(frame: CGRect.init(x: UIScreen.ScrWidth() - 95, y: getNavigationBarHeight() - 14, width: 80, height: 33))
         jumpView.jumpButton.addTarget(self, action: #selector(jumpJoinMainHomePage), for: .touchUpInside)
         self.view.addSubview(jumpView)
 
