@@ -22,10 +22,6 @@ typedef NS_ENUM(NSUInteger,DonutScheduleType)
 @interface AirFuelRatiView : UIView//空燃比
 @end
 
-
-
-
-
 @interface FWDDonutView : UIView
 
 - (instancetype)initWithFrame:(CGRect)frame Type:(DonutScheduleType)donutType;
